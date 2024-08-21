@@ -7,7 +7,7 @@ import ar.com.damian.drinkbros_backend.model.response.DrinkResponse;
 public class DrinkMapper {
 
     public static DrinkResponse mapToResponse(Drink drink) {
-        return new DrinkResponse(drink.getDrinkId(), drink.getName(), drink.getBarCode());
+        return new DrinkResponse(drink.getDrinkId(), drink.getName(), drink.getBarCode(), drink.getAlc());
     }
     public static Drink mapToEntity(DrinkRequest drink) {
         Drink drinkEntity = new Drink();

@@ -13,9 +13,12 @@ import lombok.NoArgsConstructor;
 public class Drink {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "drink_id")
     private Long drinkId;
+
+    @Column(name = "drink_brother_id")
+    private Long drinkBrotherId;
 
     @Column(name = "name")
     private String name;

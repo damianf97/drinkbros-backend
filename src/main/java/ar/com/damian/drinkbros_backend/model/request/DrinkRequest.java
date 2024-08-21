@@ -13,5 +13,5 @@ public class DrinkRequest {
     @NotBlank
     private String name;
     private String barCode;
-    private Double alc = 0D;
+    private Double alc;
 }

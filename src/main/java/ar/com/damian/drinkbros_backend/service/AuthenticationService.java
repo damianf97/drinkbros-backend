@@ -32,6 +32,7 @@ public class AuthenticationService {
         user.setFullName(input.getFullName());
         user.setEmail(input.getEmail());
         user.setPassword(passwordEncoder.encode(input.getPassword()));
+        user.setDrinkBrotherId(input.getDrinkBrotherId());
 
         return userRepository.save(user);
     }

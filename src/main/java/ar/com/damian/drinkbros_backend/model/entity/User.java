@@ -23,6 +23,9 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private Integer userId;
 
+    @Column(name = "drink_brother_id")
+    private Long drinkBrotherId;
+
     @Column(nullable = false, name = "full_name")
     private String fullName;
 

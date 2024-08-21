@@ -22,4 +22,7 @@ public class Drink {
 
     @Column(name = "bar_code")
     private String barCode;
+
+    @Column(name = "alc", nullable = false)
+    private Double alc = 0D;
 }

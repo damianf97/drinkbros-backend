@@ -39,19 +39,14 @@ public class DrinksService {
     }
 
     public DrinkResponse deleteDrink(Long drinkBrotherId, Long drinkId) {
-        Drink drink = drinkRepository.findById(drinkId).orElse(null);
-        if (drink == null || !drink.getDrinkBrotherId().equals(drinkBrotherId)) {
-            throw new ResourceNotFoundException("Drink not found");
-        }
+        Drink drink = drinkRepository.findByDrinkIdAndDrinkBrotherId(drinkId, drinkBrotherId).orElseThrow(() -> new ResourceNotFoundException("Drink not found"));
         drinkRepository.delete(drink);
         return DrinkMapper.mapToResponse(drink);
     }
 
     public DrinkResponse updateDrink(Long drinkBrotherId, Long drinkId, DrinkRequest drinkRequest) {
-        Drink drink = drinkRepository.findById(drinkId).orElse(null);
-        if (drink == null || !drink.getDrinkBrotherId().equals(drinkBrotherId)) {
-            throw new ResourceNotFoundException("Drink not found");
-        }
+        Drink drink = drinkRepository.findByDrinkIdAndDrinkBrotherId(drinkId, drinkBrotherId).orElseThrow(() -> new ResourceNotFoundException("Drink not found"));
+
         drink.setName(drinkRequest.getName());
         drink.setAlc(drinkRequest.getAlc() != null ? drinkRequest.getAlc() : drink.getAlc());
         drink.setBarCode(drinkRequest.getBarCode() != null ? drinkRequest.getBarCode() : drink.getBarCode());

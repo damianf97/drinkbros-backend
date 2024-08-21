@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface DrinkRepository extends JpaRepository<Drink, Long> {
 
     @Query(value =
@@ -20,4 +22,6 @@ public interface DrinkRepository extends JpaRepository<Drink, Long> {
     Page<Drink> findDrinks(@Param("drinkBrotherId") Long drinkBrotherId,
                            @Param("name") String name,
                            Pageable pageable);
+
+    Optional<Drink> findByDrinkIdAndDrinkBrotherId(Long drinkId, Long drinkBrotherId);
 }

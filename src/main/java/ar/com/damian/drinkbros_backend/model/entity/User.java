@@ -19,11 +19,11 @@ import java.util.List;
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Integer userId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "full_name")
     private String fullName;
 
     @Setter

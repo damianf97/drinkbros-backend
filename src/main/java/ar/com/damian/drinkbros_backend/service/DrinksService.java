@@ -8,6 +8,7 @@ import ar.com.damian.drinkbros_backend.model.request.DrinkRequest;
 import ar.com.damian.drinkbros_backend.model.response.DrinkResponse;
 import ar.com.damian.drinkbros_backend.repository.DrinkRepository;
 import ar.com.damian.drinkbros_backend.util.CommonFunctions;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
@@ -20,28 +21,28 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DrinksService {
     private final DrinkRepository drinkRepository;
-//    private DrinkMapper drinkMapper;
+    private final DrinkMapper drinkMapper;
 
     public PageResponse<DrinkResponse> getDrinks(Long drinkBrotherId, String name, int size, int page) {
         Pageable pageable = PageRequest.of(page, size);
 
         Page<Drink> result = drinkRepository.findDrinks(drinkBrotherId, CommonFunctions.prepareStringToSearch(name), pageable);
         List<Drink> drinksList = result.getContent();
-        List<DrinkResponse> drinkResponses = DrinkMapper.mapToListResponse(drinksList);
+        List<DrinkResponse> drinkResponses = drinkMapper.mapToListResponse(drinksList);
         return new PageResponse<>(result, drinkResponses);
     }
 
     public DrinkResponse createDrink(DrinkRequest drinkRequest, Long drinkBrotherId) {
-        Drink entity = DrinkMapper.mapToEntity(drinkRequest);
+        Drink entity = drinkMapper.mapToEntity(drinkRequest);
         entity.setDrinkBrotherId(drinkBrotherId);
         Drink saved = drinkRepository.save(entity);
-        return DrinkMapper.mapToResponse(saved);
+        return drinkMapper.mapDrinToDrinkResponse(saved);
     }
 
     public DrinkResponse deleteDrink(Long drinkBrotherId, Long drinkId) {
         Drink drink = drinkRepository.findByDrinkIdAndDrinkBrotherId(drinkId, drinkBrotherId).orElseThrow(() -> new ResourceNotFoundException("Drink not found"));
         drinkRepository.delete(drink);
-        return DrinkMapper.mapToResponse(drink);
+        return drinkMapper.mapDrinToDrinkResponse(drink);
     }
 
     public DrinkResponse updateDrink(Long drinkBrotherId, Long drinkId, DrinkRequest drinkRequest) {
@@ -52,6 +53,6 @@ public class DrinksService {
         drink.setBarCode(drinkRequest.getBarCode() != null ? drinkRequest.getBarCode() : drink.getBarCode());
 
         Drink saved = drinkRepository.save(drink);
-        return DrinkMapper.mapToResponse(saved);
+        return drinkMapper.mapDrinToDrinkResponse(saved);
     }
 }

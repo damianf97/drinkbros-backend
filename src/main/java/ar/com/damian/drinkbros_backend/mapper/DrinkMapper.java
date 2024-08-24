@@ -3,30 +3,17 @@ package ar.com.damian.drinkbros_backend.mapper;
 import ar.com.damian.drinkbros_backend.model.entity.Drink;
 import ar.com.damian.drinkbros_backend.model.request.DrinkRequest;
 import ar.com.damian.drinkbros_backend.model.response.DrinkResponse;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class DrinkMapper {
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+public interface DrinkMapper {
 
-    public static DrinkResponse mapToResponse(Drink drink) {
-        return new DrinkResponse(drink.getDrinkId(), drink.getName(), drink.getBarCode(), drink.getAlc());
-    }
+    DrinkResponse mapDrinToDrinkResponse(Drink drink);
 
-    public static Drink mapToEntity(DrinkRequest drink) {
-        Drink drinkEntity = new Drink();
-        drinkEntity.setName(drink.getName());
-        drinkEntity.setBarCode(drink.getBarCode());
-        drinkEntity.setAlc(drink.getAlc());
-        return drinkEntity;
-    }
+    Drink mapToEntity(DrinkRequest drink);
 
-    public static List<DrinkResponse> mapToListResponse(List<Drink> drinks) {
-        List<DrinkResponse> drinkResponses = new ArrayList<>();
-        for (Drink drink : drinks) {
-            DrinkResponse drinkEntity = mapToResponse(drink);
-            drinkResponses.add(drinkEntity);
-        }
-        return drinkResponses;
-    }
+    List<DrinkResponse> mapToListResponse(List<Drink> drinks);
 }

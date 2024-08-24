@@ -1,4 +1,5 @@
 package ar.com.damian.drinkbros_backend.config;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -23,9 +24,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-//
-//@Configuration
-//@EnableWebSecurity
+
+@Configuration
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig  {
 
@@ -55,7 +56,7 @@ public class SecurityConfig  {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize ->
                         authorize.requestMatchers("/v3/*", "/swagger-ui/*").authenticated()
-                                .requestMatchers("/error").permitAll()
+                                .requestMatchers("/error","/auth/**").permitAll()
                                 .anyRequest().authenticated())
                 .httpBasic(httpBasic -> httpBasic.realmName("Swagger Realm"))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

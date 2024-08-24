@@ -28,14 +28,14 @@ CREATE TABLE users
     drink_brother_id BIGINT                            not null,
     FOREIGN KEY (drink_brother_id) REFERENCES drink_brothers (drink_brother_id)
 );
-
+drop table warehouses;
 CREATE TABLE warehouses
 (
-    warehouses_id    BIGINT primary key AUTO_INCREMENT not null,
+    warehouse_id     BIGINT primary key AUTO_INCREMENT not null,
     drink_brother_id BIGINT                            not null,
     name             varchar(100)                      not null,
-    address          varchar(200)                      not null,
-    city             varchar(200)                      not null,
+    address          varchar(200),
+    city             varchar(200),
     created_at       timestamp                         not null default current_timestamp,
     FOREIGN KEY (drink_brother_id) REFERENCES drink_brothers (drink_brother_id)
 );

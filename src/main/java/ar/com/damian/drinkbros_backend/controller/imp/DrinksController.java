@@ -18,7 +18,7 @@ public class DrinksController implements DrinksControlerApi {
     private final DrinksService drinksService;
 
     @Override
-    public ResponseEntity<PageResponse<DrinkResponse>> getDrinks(User user, String name, int size, int page) throws Exception {
+    public ResponseEntity<PageResponse<DrinkResponse>> getDrinks(User user, String name, int size, int page) {
         return ResponseEntity.ok(drinksService.getDrinks(user.getDrinkBrotherId(), name, size, page));
     }
 

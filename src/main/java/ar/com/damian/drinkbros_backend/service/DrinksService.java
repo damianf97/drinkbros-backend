@@ -8,7 +8,6 @@ import ar.com.damian.drinkbros_backend.model.request.DrinkRequest;
 import ar.com.damian.drinkbros_backend.model.response.DrinkResponse;
 import ar.com.damian.drinkbros_backend.repository.DrinkRepository;
 import ar.com.damian.drinkbros_backend.util.CommonFunctions;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
@@ -36,13 +35,13 @@ public class DrinksService {
         Drink entity = drinkMapper.mapToEntity(drinkRequest);
         entity.setDrinkBrotherId(drinkBrotherId);
         Drink saved = drinkRepository.save(entity);
-        return drinkMapper.mapDrinToDrinkResponse(saved);
+        return drinkMapper.mapDrinToResponse(saved);
     }
 
     public DrinkResponse deleteDrink(Long drinkBrotherId, Long drinkId) {
         Drink drink = drinkRepository.findByDrinkIdAndDrinkBrotherId(drinkId, drinkBrotherId).orElseThrow(() -> new ResourceNotFoundException("Drink not found"));
         drinkRepository.delete(drink);
-        return drinkMapper.mapDrinToDrinkResponse(drink);
+        return drinkMapper.mapDrinToResponse(drink);
     }
 
     public DrinkResponse updateDrink(Long drinkBrotherId, Long drinkId, DrinkRequest drinkRequest) {
@@ -53,6 +52,6 @@ public class DrinksService {
         drink.setBarCode(drinkRequest.getBarCode() != null ? drinkRequest.getBarCode() : drink.getBarCode());
 
         Drink saved = drinkRepository.save(drink);
-        return drinkMapper.mapDrinToDrinkResponse(saved);
+        return drinkMapper.mapDrinToResponse(saved);
     }
 }

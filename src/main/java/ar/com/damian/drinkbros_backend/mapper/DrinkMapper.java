@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface DrinkMapper {
 
-    DrinkResponse mapDrinToDrinkResponse(Drink drink);
+    DrinkResponse mapDrinToResponse(Drink drink);
 
     Drink mapToEntity(DrinkRequest drink);
 

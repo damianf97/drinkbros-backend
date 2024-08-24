@@ -27,7 +27,7 @@ public interface DrinksControlerApi {
                                                           @RequestParam(value = "name", required = false) String name,
                                                           @RequestParam(value = "size", required = false, defaultValue = "20")@Max(100) int size,
                                                           @RequestParam(value = "page", required = false, defaultValue = "0") int page
-    ) throws Exception;
+    );
 
     @Operation(summary = "Registrar una nueva bebida", tags = {"Drinks"})
     @ApiResponses(value = {

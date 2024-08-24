@@ -13,12 +13,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "warehouses")
-public class Warehouses {
+public class Warehouse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "warehouses_id")
-    private Long warehousesId;
+    @Column(name = "warehouse_id")
+    private Long warehouseId;
 
     @Column(name = "drink_brother_id", nullable = false)
     private Long drinkBrotherId;

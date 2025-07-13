@@ -42,6 +42,21 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 }
 
+tasks.withType(JavaCompile).configureEach {
+	options.compilerArgs += [
+			'-Amapstruct.defaultComponentModel=spring',
+			'-Amapstruct.suppressGeneratorTimestamp=true',
+			'-Amapstruct.suppressGeneratorVersionInfoComment=true'
+	]
+}
+
+compileJava {
+	options.compilerArgs += [
+			'-parameters',
+			'-Amapstruct.defaultComponentModel=spring'
+	]
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }

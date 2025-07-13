@@ -35,13 +35,13 @@ public class DrinksService {
         Drink entity = drinkMapper.mapToEntity(drinkRequest);
         entity.setDrinkBrotherId(drinkBrotherId);
         Drink saved = drinkRepository.save(entity);
-        return drinkMapper.mapDrinToResponse(saved);
+        return drinkMapper.mapDrinkToResponse(saved);
     }
 
     public DrinkResponse deleteDrink(Long drinkBrotherId, Long drinkId) {
         Drink drink = drinkRepository.findByDrinkIdAndDrinkBrotherId(drinkId, drinkBrotherId).orElseThrow(() -> new ResourceNotFoundException("Drink not found"));
         drinkRepository.delete(drink);
-        return drinkMapper.mapDrinToResponse(drink);
+        return drinkMapper.mapDrinkToResponse(drink);
     }
 
     public DrinkResponse updateDrink(Long drinkBrotherId, Long drinkId, DrinkRequest drinkRequest) {
@@ -52,6 +52,6 @@ public class DrinksService {
         drink.setBarCode(drinkRequest.getBarCode() != null ? drinkRequest.getBarCode() : drink.getBarCode());
 
         Drink saved = drinkRepository.save(drink);
-        return drinkMapper.mapDrinToResponse(saved);
+        return drinkMapper.mapDrinkToResponse(saved);
     }
 }

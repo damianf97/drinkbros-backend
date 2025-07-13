@@ -28,7 +28,6 @@ CREATE TABLE users
     drink_brother_id BIGINT                            not null,
     FOREIGN KEY (drink_brother_id) REFERENCES drink_brothers (drink_brother_id)
 );
-drop table warehouses;
 CREATE TABLE warehouses
 (
     warehouse_id     BIGINT primary key AUTO_INCREMENT not null,

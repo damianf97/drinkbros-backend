@@ -39,13 +39,15 @@ public class DrinksService {
     }
 
     public DrinkResponse deleteDrink(Long drinkBrotherId, Long drinkId) {
-        Drink drink = drinkRepository.findByDrinkIdAndDrinkBrotherId(drinkId, drinkBrotherId).orElseThrow(() -> new ResourceNotFoundException("Drink not found"));
+        Drink drink = drinkRepository.findByDrinkIdAndDrinkBrotherId(drinkId, drinkBrotherId)
+                .orElseThrow(() -> new ResourceNotFoundException("Drink not found"));
         drinkRepository.delete(drink);
         return drinkMapper.mapDrinkToResponse(drink);
     }
 
     public DrinkResponse updateDrink(Long drinkBrotherId, Long drinkId, DrinkRequest drinkRequest) {
-        Drink drink = drinkRepository.findByDrinkIdAndDrinkBrotherId(drinkId, drinkBrotherId).orElseThrow(() -> new ResourceNotFoundException("Drink not found"));
+        Drink drink = drinkRepository.findByDrinkIdAndDrinkBrotherId(drinkId, drinkBrotherId)
+                .orElseThrow(() -> new ResourceNotFoundException("Drink not found"));
 
         drink.setName(drinkRequest.getName());
         drink.setAlc(drinkRequest.getAlc() != null ? drinkRequest.getAlc() : drink.getAlc());

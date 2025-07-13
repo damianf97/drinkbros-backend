@@ -34,10 +34,10 @@ public interface DrinksControlerApi {
             @ApiResponse(responseCode = "201", description = "Success"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "412", description = "Precondition failed")})
-    @PostMapping
+    @PutMapping
     ResponseEntity<DrinkResponse> createDrink(@AuthenticationPrincipal User user, @RequestBody DrinkRequest drinkRequest);
 
-    @Operation(summary = "Registrar una nueva bebida", tags = {"Drinks"})
+    @Operation(summary = "Eliminar una nueva bebida existente", tags = {"Drinks"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Success"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
@@ -45,7 +45,7 @@ public interface DrinksControlerApi {
     @DeleteMapping("/{drink_id}")
     ResponseEntity<DrinkResponse> deleteDrink(@AuthenticationPrincipal User user, @PathVariable("drink_id") Long drinkId);
 
-    @Operation(summary = "Registrar una nueva bebida", tags = {"Drinks"})
+    @Operation(summary = "Actualizar una nueva bebida existente", tags = {"Drinks"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Success"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),

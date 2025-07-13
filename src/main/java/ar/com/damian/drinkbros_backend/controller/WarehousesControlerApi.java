@@ -2,9 +2,7 @@ package ar.com.damian.drinkbros_backend.controller;
 
 import ar.com.damian.drinkbros_backend.model.dtos.PageResponse;
 import ar.com.damian.drinkbros_backend.model.entity.User;
-import ar.com.damian.drinkbros_backend.model.request.DrinkRequest;
 import ar.com.damian.drinkbros_backend.model.request.WarehouseRequest;
-import ar.com.damian.drinkbros_backend.model.response.DrinkResponse;
 import ar.com.damian.drinkbros_backend.model.response.WarehouseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,7 +35,7 @@ public interface WarehousesControlerApi {
             @ApiResponse(responseCode = "201", description = "Success"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "412", description = "Precondition failed")})
-    @PostMapping
+    @PutMapping
     ResponseEntity<WarehouseResponse> createWarehouse(@AuthenticationPrincipal User user, @RequestBody WarehouseRequest warehouseRequest);
 
     @Operation(summary = "Eliminar un Deposito", tags = {"Warehouses"})

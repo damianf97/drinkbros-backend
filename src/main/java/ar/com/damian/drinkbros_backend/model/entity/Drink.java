@@ -27,4 +27,11 @@ public class Drink {
 
     @Column(name = "alc", nullable = false)
     private Double alc;
+
+    @PrePersist
+    public void prePersist() {
+        if (alc == null) {
+            alc = 0.0;
+        };
+    }
 }

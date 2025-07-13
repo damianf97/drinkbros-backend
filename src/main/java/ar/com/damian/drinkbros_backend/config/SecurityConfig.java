@@ -55,8 +55,7 @@ public class SecurityConfig  {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize ->
-                        authorize.requestMatchers("/v3/*", "/swagger-ui/*").authenticated()
-                                .requestMatchers("/error","/auth/**").permitAll()
+                        authorize.requestMatchers("/error","/auth/**","/v3/*", "/swagger-ui/*").permitAll()
                                 .anyRequest().authenticated())
                 .httpBasic(httpBasic -> httpBasic.realmName("Swagger Realm"))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

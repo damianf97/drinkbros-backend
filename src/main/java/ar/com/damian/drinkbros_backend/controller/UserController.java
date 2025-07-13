@@ -4,6 +4,7 @@ import ar.com.damian.drinkbros_backend.model.entity.User;
 import ar.com.damian.drinkbros_backend.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +31,8 @@ public class UserController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<User>> allUsers() {
-        List <User> users = userService.allUsers();
+    public ResponseEntity<List<User>> allUsers(@AuthenticationPrincipal User user) {
+        List <User> users = userService.allUsers(user.getDrinkBrotherId());
 
         return ResponseEntity.ok(users);
     }

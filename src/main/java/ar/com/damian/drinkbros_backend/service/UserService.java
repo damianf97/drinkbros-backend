@@ -1,24 +1,24 @@
 package ar.com.damian.drinkbros_backend.service;
 import ar.com.damian.drinkbros_backend.model.entity.User;
 import ar.com.damian.drinkbros_backend.repository.UserRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public List<User> allUsers(Long drinkBrotherId) {
+
+        return userRepository.findByDrinkBrotherId(drinkBrotherId);
     }
 
-    public List<User> allUsers() {
-        List<User> users = new ArrayList<>();
-
-        userRepository.findAll().forEach(users::add);
-
-        return users;
+    public User findByEmail(String username) {
+        return userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

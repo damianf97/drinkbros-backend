@@ -12,4 +12,7 @@ public class MessageBundle {
     public static final String JWT_INVALID = "The JWT signature is invalid.";
     public static final String JWT_TOKEN_EXPIRED = "The JWT token has expired.";
     public static final String INTERNAL_ERROR = "Unknown internal server error.";
+    public static final String USER_NOT_FOUND = "User not found.";
+    public static final String DRINK_NOT_FOUND = "Drink not found.";
+    public static final String WAREHOUSE_NOT_FOUND = "Warehouse not found.";
 }

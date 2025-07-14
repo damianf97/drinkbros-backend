@@ -1,6 +1,8 @@
 package ar.com.damian.drinkbros_backend.service;
+
 import ar.com.damian.drinkbros_backend.model.entity.User;
 import ar.com.damian.drinkbros_backend.repository.UserRepository;
+import ar.com.damian.drinkbros_backend.util.MessageBundle;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,6 @@ public class UserService {
 
     public User findByEmail(String username) {
         return userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(MessageBundle.USER_NOT_FOUND));
     }
 }

@@ -22,8 +22,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorDetail> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setCode(404);
-        errorDetail.setMessage(ex.getMessage());
-        errorDetail.setDescription(MessageBundle.RESOURCE_NOT_FOUND);
+        errorDetail.setMessage(MessageBundle.RESOURCE_NOT_FOUND);
+        errorDetail.setDescription(ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetail);
     }
 
@@ -31,8 +31,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorDetail> handleBadCredentialsException(BadCredentialsException ex, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setCode(401);
-        errorDetail.setMessage(ex.getMessage());
-        errorDetail.setDescription(MessageBundle.USER_PASSWORD_INCORRECT);
+        errorDetail.setMessage(MessageBundle.USER_PASSWORD_INCORRECT);
+        errorDetail.setDescription(ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetail);
     }
 
@@ -40,8 +40,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorDetail> handleAccountStatusException(AccountStatusException ex, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setCode(403);
-        errorDetail.setMessage(ex.getMessage());
-        errorDetail.setDescription(MessageBundle.ACCOUNT_LOKECD);
+        errorDetail.setMessage(MessageBundle.ACCOUNT_LOKECD);
+        errorDetail.setDescription(ex.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetail);
     }
 
@@ -49,8 +49,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorDetail> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setCode(401);
-        errorDetail.setMessage(ex.getMessage());
-        errorDetail.setDescription(MessageBundle.UNAUTHORIZED);
+        errorDetail.setMessage(MessageBundle.UNAUTHORIZED);
+        errorDetail.setDescription(ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetail);
     }
 
@@ -58,8 +58,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorDetail> handleSignatureException(SignatureException ex, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setCode(403);
-        errorDetail.setMessage(ex.getMessage());
-        errorDetail.setDescription(MessageBundle.JWT_INVALID);
+        errorDetail.setMessage(MessageBundle.JWT_INVALID);
+        errorDetail.setDescription(ex.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetail);
     }
 
@@ -67,8 +67,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorDetail> handleExpiredJwtException(ExpiredJwtException ex, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setCode(403);
-        errorDetail.setMessage(ex.getMessage());
-        errorDetail.setDescription(MessageBundle.JWT_TOKEN_EXPIRED);
+        errorDetail.setMessage(MessageBundle.JWT_TOKEN_EXPIRED);
+        errorDetail.setDescription(ex.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetail);
     }
 

@@ -7,6 +7,8 @@ import ar.com.damian.drinkbros_backend.model.request.DrinkRequest;
 import ar.com.damian.drinkbros_backend.model.response.DrinkResponse;
 import ar.com.damian.drinkbros_backend.service.DrinksService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +21,8 @@ public class DrinksController implements DrinksControlerApi {
 
     @Override
     public ResponseEntity<PageResponse<DrinkResponse>> getDrinks(User user, String name, int size, int page) {
-        return ResponseEntity.ok(drinksService.getDrinks(user.getDrinkBrotherId(), name, size, page));
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(drinksService.getDrinks(user.getDrinkBrotherId(), name, pageable));
     }
 
     @Override

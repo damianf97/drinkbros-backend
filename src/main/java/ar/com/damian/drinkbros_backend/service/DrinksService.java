@@ -8,10 +8,10 @@ import ar.com.damian.drinkbros_backend.model.request.DrinkRequest;
 import ar.com.damian.drinkbros_backend.model.response.DrinkResponse;
 import ar.com.damian.drinkbros_backend.repository.DrinkRepository;
 import ar.com.damian.drinkbros_backend.util.CommonFunctions;
+import ar.com.damian.drinkbros_backend.util.MessageBundle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -22,10 +22,9 @@ public class DrinksService {
     private final DrinkRepository drinkRepository;
     private final DrinkMapper drinkMapper;
 
-    public PageResponse<DrinkResponse> getDrinks(Long drinkBrotherId, String name, int size, int page) {
-        Pageable pageable = PageRequest.of(page, size);
-
-        Page<Drink> result = drinkRepository.findDrinks(drinkBrotherId, CommonFunctions.prepareStringToSearch(name), pageable);
+    public PageResponse<DrinkResponse> getDrinks(Long drinkBrotherId, String name, Pageable pageable) {
+        Page<Drink> result = drinkRepository.findDrinks(
+                drinkBrotherId, CommonFunctions.prepareStringToSearch(name), pageable);
         List<Drink> drinksList = result.getContent();
         List<DrinkResponse> drinkResponses = drinkMapper.mapToListResponse(drinksList);
         return new PageResponse<>(result, drinkResponses);
@@ -40,14 +39,14 @@ public class DrinksService {
 
     public DrinkResponse deleteDrink(Long drinkBrotherId, Long drinkId) {
         Drink drink = drinkRepository.findByDrinkIdAndDrinkBrotherId(drinkId, drinkBrotherId)
-                .orElseThrow(() -> new ResourceNotFoundException("Drink not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(MessageBundle.DRINK_NOT_FOUND));
         drinkRepository.delete(drink);
         return drinkMapper.mapDrinkToResponse(drink);
     }
 
     public DrinkResponse updateDrink(Long drinkBrotherId, Long drinkId, DrinkRequest drinkRequest) {
         Drink drink = drinkRepository.findByDrinkIdAndDrinkBrotherId(drinkId, drinkBrotherId)
-                .orElseThrow(() -> new ResourceNotFoundException("Drink not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(MessageBundle.DRINK_NOT_FOUND));
 
         drink.setName(drinkRequest.getName());
         drink.setAlc(drinkRequest.getAlc() != null ? drinkRequest.getAlc() : drink.getAlc());

@@ -25,5 +25,5 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
                                    @Param("city") String city,
                                    Pageable pageable);
 
-    Optional<Warehouse> findWarehousesByWarehouseIdAndDrinkBrotherId(Long warehouseId, Long drinkBrotherId);
+    Optional<Warehouse> findByWarehouseIdAndDrinkBrotherId(Long warehouseId, Long drinkBrotherId);
 }

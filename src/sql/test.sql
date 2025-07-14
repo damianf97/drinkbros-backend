@@ -39,6 +39,18 @@ CREATE TABLE warehouses
     FOREIGN KEY (drink_brother_id) REFERENCES drink_brothers (drink_brother_id)
 );
 
+CREATE TABLE product_stock
+(
+    drink_id     BIGINT         NOT NULL
+        REFERENCES drinks (drink_id),
+    warehouse_id BIGINT         NOT NULL
+        REFERENCES warehouses (warehouse_id),
+    quantity     DECIMAL(22, 8) NOT NULL,
+    updated_at   timestamp      not null default current_timestamp,
+
+    PRIMARY KEY (drink_id, warehouse_id)
+);
+
 insert into drink_brothers (name)
 values ('DRINKBROS');
 commit;

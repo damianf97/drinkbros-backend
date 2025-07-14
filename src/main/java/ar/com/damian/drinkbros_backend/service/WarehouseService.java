@@ -8,6 +8,7 @@ import ar.com.damian.drinkbros_backend.model.request.WarehouseRequest;
 import ar.com.damian.drinkbros_backend.model.response.WarehouseResponse;
 import ar.com.damian.drinkbros_backend.repository.WarehouseRepository;
 import ar.com.damian.drinkbros_backend.util.CommonFunctions;
+import ar.com.damian.drinkbros_backend.util.MessageBundle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +23,7 @@ public class WarehouseService {
     private final WarehouseRepository warehouseRepository;
     private final WarehouseMapper warehouseMapper;
 
-    public PageResponse<WarehouseResponse> getWarehouses(Long drinkBrotherId, String name,  String city, int size, int page) {
+    public PageResponse<WarehouseResponse> getWarehouses(Long drinkBrotherId, String name, String city, int size, int page) {
         Pageable pageable = PageRequest.of(page, size);
 
         Page<Warehouse> result = warehouseRepository.findWarehouses(drinkBrotherId, CommonFunctions.prepareStringToSearch(name), CommonFunctions.prepareStringToSearch(city), pageable);
@@ -39,13 +40,15 @@ public class WarehouseService {
     }
 
     public WarehouseResponse deleteWarehouse(Long drinkBrotherId, Long warehouseId) {
-        Warehouse warehouse = warehouseRepository.findWarehousesByWarehouseIdAndDrinkBrotherId(warehouseId, drinkBrotherId).orElseThrow(() -> new ResourceNotFoundException("Warehouse not found"));
+        Warehouse warehouse = warehouseRepository.findByWarehouseIdAndDrinkBrotherId(warehouseId, drinkBrotherId)
+                .orElseThrow(() -> new ResourceNotFoundException(MessageBundle.WAREHOUSE_NOT_FOUND));
         warehouseRepository.delete(warehouse);
         return warehouseMapper.mapWarehouseToResponse(warehouse);
     }
 
     public WarehouseResponse updateWarehouse(Long drinkBrotherId, Long warehouseId, WarehouseRequest warehouseRequest) {
-        Warehouse warehouse = warehouseRepository.findWarehousesByWarehouseIdAndDrinkBrotherId(warehouseId, drinkBrotherId).orElseThrow(() -> new ResourceNotFoundException("Warehouse not found"));
+        Warehouse warehouse = warehouseRepository.findByWarehouseIdAndDrinkBrotherId(warehouseId, drinkBrotherId)
+                .orElseThrow(() -> new ResourceNotFoundException(MessageBundle.WAREHOUSE_NOT_FOUND));
 
         warehouse.setName(warehouseRequest.getName());
         warehouse.setCity(warehouseRequest.getCity() != null ? warehouseRequest.getCity() : warehouse.getCity());

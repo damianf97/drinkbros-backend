@@ -2,7 +2,7 @@ package ar.com.damian.drinkbros_backend.util;
 
 public class CommonFunctions {
 
-    private CommonFunctions(){
+    private CommonFunctions() {
         //default
     }
 
@@ -12,5 +12,13 @@ public class CommonFunctions {
         }
 
         return "%" + stringToSearch + "%";
+    }
+
+    public static boolean isEmptyOrNull(String string) {
+        return string == null || string.trim().isEmpty();
+    }
+
+    public static boolean hasData(String string) {
+        return string != null && !string.trim().isEmpty();
     }
 }

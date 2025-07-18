@@ -53,4 +53,47 @@ CREATE TABLE product_stock
 
 insert into drink_brothers (name)
 values ('DRINKBROS');
+
+
+-- auto-generated definition
+create table token_autorizacion_mercado_pago
+(
+    id_token_autorizacion_mercado_pago bigint default nextval('token_autorizacion_mercado_pago_seq'::regclass) not null
+        constraint pk_token_autorizacion_mercado_pago
+            primary key,
+    access_token                       varchar(500)                                                            not null,
+    id_usuario_mercado_pago            bigint                                                                  not null
+        constraint fk_token_autorizacion_mercado_pago
+            references usuario_mercado_pago,
+    refresh_token                      varchar(500),
+    segundos_expira                    bigint,
+    fecha_registro                     timestamp                                                               not null,
+    fecha_expira                       timestamp                                                               not null
+);
+
+alter table token_autorizacion_mercado_pago
+    owner to dux;
+
+
+
+-- auto-generated definition
+create table usuario_mercado_pago
+(
+    id_usuario_mercado_pago bigint default nextval('usuario_mercado_pago_seq'::regclass) not null
+        constraint pk_usuario_mercado_pago
+            primary key,
+    id_dux                  bigint                                                       not null
+        constraint fk_usuario_mercado_pago
+            references dux,
+    nickname                varchar(200)                                                 not null,
+    id_mercado_pago         bigint,
+    site_id                 varchar(10),
+    country_id              varchar(10),
+    eliminado               char   default 'N'::bpchar                                   not null
+);
+
+alter table usuario_mercado_pago
+    owner to dux;
+
+
 commit;

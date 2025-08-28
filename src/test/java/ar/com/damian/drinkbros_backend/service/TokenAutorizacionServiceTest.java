@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.util.ReflectionTestUtils;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -38,6 +39,9 @@ class TokenAutorizacionServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        ReflectionTestUtils.setField(systemUnderTest, "mercadoPagoClientId", "5391999996149444");
+        ReflectionTestUtils.setField(systemUnderTest, "mercadoPagoClientSecret", "secret");
     }
 
     @Test

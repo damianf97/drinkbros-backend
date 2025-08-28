@@ -23,8 +23,7 @@ import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class ProductStockServiceTest {
-
+class ProductStockServiceTest {
 
     @InjectMocks
     private ProductStockService systemUnderTest;

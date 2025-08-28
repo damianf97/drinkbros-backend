@@ -1,6 +1,5 @@
 package ar.com.damian.drinkbros_backend.service;
 
-import ar.com.damian.drinkbros_backend.exception.ResourceNotFoundException;
 import ar.com.damian.drinkbros_backend.mapper.ProductStockMapper;
 import ar.com.damian.drinkbros_backend.model.dtos.PageResponse;
 import ar.com.damian.drinkbros_backend.model.entity.Drink;
@@ -10,11 +9,8 @@ import ar.com.damian.drinkbros_backend.model.entity.Warehouse;
 import ar.com.damian.drinkbros_backend.model.projections.ProductStockProjection;
 import ar.com.damian.drinkbros_backend.model.request.ProductStockRequest;
 import ar.com.damian.drinkbros_backend.model.response.ProductStockResponse;
-import ar.com.damian.drinkbros_backend.repository.DrinkRepository;
 import ar.com.damian.drinkbros_backend.repository.ProductStockRepository;
-import ar.com.damian.drinkbros_backend.repository.WarehouseRepository;
 import ar.com.damian.drinkbros_backend.util.CommonFunctions;
-import ar.com.damian.drinkbros_backend.util.MessageBundle;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,17 +24,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductStockService {
     private final ProductStockRepository productStockRepository;
-    private final DrinkRepository drinkRepository;
-    private final WarehouseRepository warehouseRepository;
+    private final DrinksService drinksService;
+    private final WarehouseService warehouseService;
     private final ProductStockMapper productStockMapper;
 
     @Transactional
     public ProductStockResponse registerProductStock(Long drinkBrotherId, ProductStockRequest request) {
-        Drink drink = drinkRepository.findByDrinkIdAndDrinkBrotherId(request.getDrinkId(), drinkBrotherId)
-                .orElseThrow(() -> new ResourceNotFoundException(MessageBundle.DRINK_NOT_FOUND));
+        Drink drink = drinksService.findByDrinkIdAndDrinkBrotherId(request.getDrinkId(), drinkBrotherId);
 
-        Warehouse warehouse = warehouseRepository.findByWarehouseIdAndDrinkBrotherId(request.getWarehouseId(), drinkBrotherId)
-                .orElseThrow(() -> new ResourceNotFoundException(MessageBundle.WAREHOUSE_NOT_FOUND));
+        Warehouse warehouse = warehouseService.findByWarehouseIdAndDrinkBrotherId(request.getWarehouseId(), drinkBrotherId);
 
         ProductStockId id = new ProductStockId(drink.getDrinkId(), request.getWarehouseId());
         Optional<ProductStock> optional = productStockRepository.findById(id);
@@ -57,8 +51,8 @@ public class ProductStockService {
 
         Page<ProductStockProjection> result = productStockRepository.findProductStock(
                 drinkBrotherId, CommonFunctions.prepareStringToSearch(drinkName), drinkId, CommonFunctions.prepareStringToSearch(warehouseName), warehouseId, pageable);
-        List<ProductStockProjection> productStockProjections = result.getContent();
-        List<ProductStockResponse> drinkResponses = productStockMapper.mapListProjectionToListResponse(productStockProjections);
+
+        List<ProductStockResponse> drinkResponses = productStockMapper.mapListProjectionToListResponse(result.getContent());
         return new PageResponse<>(result, drinkResponses);
     }
 }

@@ -9,6 +9,7 @@ import ar.com.damian.drinkbros_backend.model.response.WarehouseResponse;
 import ar.com.damian.drinkbros_backend.repository.WarehouseRepository;
 import ar.com.damian.drinkbros_backend.util.CommonFunctions;
 import ar.com.damian.drinkbros_backend.util.MessageBundle;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,6 +33,7 @@ public class WarehouseService {
         return new PageResponse<>(result, warehouseResponses);
     }
 
+    @Transactional
     public WarehouseResponse createWarehouse(WarehouseRequest warehouseRequest, Long drinkBrotherId) {
         Warehouse entity = warehouseMapper.mapToEntity(warehouseRequest);
         entity.setDrinkBrotherId(drinkBrotherId);
@@ -39,16 +41,16 @@ public class WarehouseService {
         return warehouseMapper.mapWarehouseToResponse(saved);
     }
 
+    @Transactional
     public WarehouseResponse deleteWarehouse(Long drinkBrotherId, Long warehouseId) {
-        Warehouse warehouse = warehouseRepository.findByWarehouseIdAndDrinkBrotherId(warehouseId, drinkBrotherId)
-                .orElseThrow(() -> new ResourceNotFoundException(MessageBundle.WAREHOUSE_NOT_FOUND));
+        Warehouse warehouse = findByWarehouseIdAndDrinkBrotherId(warehouseId, drinkBrotherId);
         warehouseRepository.delete(warehouse);
         return warehouseMapper.mapWarehouseToResponse(warehouse);
     }
 
+    @Transactional
     public WarehouseResponse updateWarehouse(Long drinkBrotherId, Long warehouseId, WarehouseRequest warehouseRequest) {
-        Warehouse warehouse = warehouseRepository.findByWarehouseIdAndDrinkBrotherId(warehouseId, drinkBrotherId)
-                .orElseThrow(() -> new ResourceNotFoundException(MessageBundle.WAREHOUSE_NOT_FOUND));
+        Warehouse warehouse = findByWarehouseIdAndDrinkBrotherId(warehouseId, drinkBrotherId);
 
         warehouse.setName(warehouseRequest.getName());
         warehouse.setCity(warehouseRequest.getCity() != null ? warehouseRequest.getCity() : warehouse.getCity());
@@ -56,5 +58,10 @@ public class WarehouseService {
 
         Warehouse saved = warehouseRepository.save(warehouse);
         return warehouseMapper.mapWarehouseToResponse(saved);
+    }
+
+    public Warehouse findByWarehouseIdAndDrinkBrotherId(Long warehouseId, Long drinkBrotherId) {
+        return warehouseRepository.findByWarehouseIdAndDrinkBrotherId(warehouseId, drinkBrotherId)
+                .orElseThrow(() -> new ResourceNotFoundException(MessageBundle.WAREHOUSE_NOT_FOUND));
     }
 }

@@ -23,11 +23,12 @@ public interface WarehousesControlerApi {
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "412", description = "Precondition failed")})
     @GetMapping
-    ResponseEntity<PageResponse<WarehouseResponse>> getWarehouses(@AuthenticationPrincipal User user,
-                                                                  @RequestParam(value = "name", required = false) String name,
-                                                                  @RequestParam(value = "city", required = false) String city,
-                                                                  @RequestParam(value = "size", required = false, defaultValue = "20")@Max(100) int size,
-                                                                  @RequestParam(value = "page", required = false, defaultValue = "0") int page
+    ResponseEntity<PageResponse<WarehouseResponse>> getWarehouses(
+            @AuthenticationPrincipal User user,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "city", required = false) String city,
+            @RequestParam(value = "size", required = false, defaultValue = "20") @Max(100) int size,
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page
     );
 
     @Operation(summary = "Registrar un nuevo Deposito", tags = {"Warehouses"})
@@ -35,8 +36,10 @@ public interface WarehousesControlerApi {
             @ApiResponse(responseCode = "201", description = "Success"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "412", description = "Precondition failed")})
-    @PutMapping
-    ResponseEntity<WarehouseResponse> createWarehouse(@AuthenticationPrincipal User user, @RequestBody WarehouseRequest warehouseRequest);
+    @PostMapping
+    ResponseEntity<WarehouseResponse> createWarehouse(
+            @AuthenticationPrincipal User user,
+            @RequestBody WarehouseRequest warehouseRequest);
 
     @Operation(summary = "Eliminar un Deposito", tags = {"Warehouses"})
     @ApiResponses(value = {
@@ -44,14 +47,18 @@ public interface WarehousesControlerApi {
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "412", description = "Precondition failed")})
     @DeleteMapping("/{warehouse_id}")
-    ResponseEntity<WarehouseResponse> deleteWarehouse(@AuthenticationPrincipal User user, @PathVariable("warehouse_id") Long warehouseId);
+    ResponseEntity<WarehouseResponse> deleteWarehouse(
+            @AuthenticationPrincipal User user,
+            @PathVariable("warehouse_id") Long warehouseId);
 
     @Operation(summary = "Actualizar un Deposito", tags = {"Warehouses"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Success"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "412", description = "Precondition failed")})
-    @PostMapping("/{warehouse_id}")
-    ResponseEntity<WarehouseResponse> updateWarehouse(@AuthenticationPrincipal User user, @PathVariable("warehouse_id") Long warehouseId, @RequestBody WarehouseRequest warehouseRequest);
-
+    @PutMapping("/{warehouse_id}")
+    ResponseEntity<WarehouseResponse> updateWarehouse(
+            @AuthenticationPrincipal User user,
+            @PathVariable("warehouse_id") Long warehouseId,
+            @RequestBody WarehouseRequest warehouseRequest);
 }

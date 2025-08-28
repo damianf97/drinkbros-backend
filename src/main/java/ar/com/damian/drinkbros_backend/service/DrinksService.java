@@ -9,6 +9,7 @@ import ar.com.damian.drinkbros_backend.model.response.DrinkResponse;
 import ar.com.damian.drinkbros_backend.repository.DrinkRepository;
 import ar.com.damian.drinkbros_backend.util.CommonFunctions;
 import ar.com.damian.drinkbros_backend.util.MessageBundle;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
@@ -30,6 +31,7 @@ public class DrinksService {
         return new PageResponse<>(result, drinkResponses);
     }
 
+    @Transactional
     public DrinkResponse createDrink(DrinkRequest drinkRequest, Long drinkBrotherId) {
         Drink entity = drinkMapper.mapToEntity(drinkRequest);
         entity.setDrinkBrotherId(drinkBrotherId);
@@ -37,16 +39,17 @@ public class DrinksService {
         return drinkMapper.mapDrinkToResponse(saved);
     }
 
+    @Transactional
     public DrinkResponse deleteDrink(Long drinkBrotherId, Long drinkId) {
-        Drink drink = drinkRepository.findByDrinkIdAndDrinkBrotherId(drinkId, drinkBrotherId)
-                .orElseThrow(() -> new ResourceNotFoundException(MessageBundle.DRINK_NOT_FOUND));
+        Drink drink = findByDrinkIdAndDrinkBrotherId(drinkId, drinkBrotherId);
+
         drinkRepository.delete(drink);
         return drinkMapper.mapDrinkToResponse(drink);
     }
 
+    @Transactional
     public DrinkResponse updateDrink(Long drinkBrotherId, Long drinkId, DrinkRequest drinkRequest) {
-        Drink drink = drinkRepository.findByDrinkIdAndDrinkBrotherId(drinkId, drinkBrotherId)
-                .orElseThrow(() -> new ResourceNotFoundException(MessageBundle.DRINK_NOT_FOUND));
+        Drink drink = findByDrinkIdAndDrinkBrotherId(drinkId, drinkBrotherId);
 
         drink.setName(drinkRequest.getName());
         drink.setAlc(drinkRequest.getAlc() != null ? drinkRequest.getAlc() : drink.getAlc());
@@ -54,5 +57,10 @@ public class DrinksService {
 
         Drink saved = drinkRepository.save(drink);
         return drinkMapper.mapDrinkToResponse(saved);
+    }
+
+    public Drink findByDrinkIdAndDrinkBrotherId(Long drinkId, Long drinkBrotherId) {
+        return drinkRepository.findByDrinkIdAndDrinkBrotherId(drinkId, drinkBrotherId)
+                .orElseThrow(() -> new ResourceNotFoundException(MessageBundle.DRINK_NOT_FOUND));
     }
 }
